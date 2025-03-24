@@ -1,0 +1,11 @@
+{
+  "name": "com.user.metricspace",
+  "version": "1.0.0",
+  "displayName": "Metric Space Simulation",
+  "description": "A simulation of the Infinite-Dimensional Metric Tensor Configuration Space with divine pulses.",
+  "unity": "2021.1",
+  "author": {
+    "name": "User",
+    "email": "user@example.com"
+  }
+}
