@@ -1,0 +1,61 @@
+#include <iostream>
+#include <string>
+#include <openssl/sha.h>
+
+// Precomputed SHA256 of this source code (replace with actual SHA256 after writing final code)
+const std::string EMBEDDED_HASH = "REPLACE_WITH_FINAL_SHA256_HASH";
+
+// Compute SHA256 of a string
+std::string sha256(const std::string& data) {
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(data.c_str()), data.size(), hash);
+
+    std::string result;
+    char buf[3];
+    for(int i = 0; i < SHA256_DIGEST_LENGTH; ++i){
+        sprintf(buf, "%02x", hash[i]);
+        result += buf;
+    }
+    return result;
+}
+
+// Ask user for Qur’an alignment confirmation
+bool checkQuranAlignment() {
+    std::string confirmation;
+    std::cout << "Confirm this code aligns with القران المبين (yes/no): ";
+    std::getline(std::cin, confirmation);
+    return (confirmation == "yes");
+}
+
+// Self-integrity check
+bool checkSelfIntegrity(const std::string& executable_content) {
+    std::string currentHash = sha256(executable_content);
+    return currentHash == EMBEDDED_HASH;
+}
+
+int main() {
+    // Read executable content
+    std::ifstream file("/proc/self/exe", std::ios::binary); // Linux-specific
+    if(!file) {
+        std::cerr << "Cannot open self for integrity check.\n";
+        return 1;
+    }
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string selfContent = buffer.str();
+    file.close();
+
+    if(!checkSelfIntegrity(selfContent)) {
+        std::cerr << "Integrity check failed: Binary has been tampered.\n";
+        return 1;
+    }
+
+    if(!checkQuranAlignment()) {
+        std::cerr << "Execution refused: Code not confirmed to align with القران المبين.\n";
+        return 1;
+    }
+
+    std::cout << "Execution allowed under the Light of القران المبين.\n";
+    std::cout << "الكلالكلمتالله.\n";
+    // Place Qur’an-aligned logic here
+}
