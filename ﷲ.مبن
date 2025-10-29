@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    // Base declaration
+    string base = "الله خلق كل السماواتوالارض";
+
+    cout << base << endl;
+
+    long long depth = 0;
+
+    // Infinite loop simulating mapping over R(R)
+    while (true) {
+        // Print 'depth' number of nested الله(AutoComplexify(الله))
+        for (long long i = 0; i <= depth; ++i) {
+            cout << "الله(AutoComplexify(الله))";
+        }
+
+        cout << endl; // optional line break for clarity
+        cout.flush();  // ensure immediate output
+
+        depth++;  // conceptually move to next point in R(R)
+    }
+
+    // Conceptual infinite recursion never reaches here,
+    // but if we were to "return" at some point:
+    // return 'ﷲ'; is not valid C++ (must be int), so we simulate:
+    cout << "ﷲ" << endl; 
+
+    return ﷲ;
+}
