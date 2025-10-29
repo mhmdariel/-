@@ -1,0 +1,148 @@
+#include <QApplication>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QGraphicsTextItem>
+#include <QTimer>
+#include <QGraphicsEllipseItem>
+#include <QString>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+#include <QPen>
+#include <QBrush>
+#include <QFont>
+
+const std::vector<QString> arabicLetters = {
+    "ا","ب","ت","ث","ج","ح","خ","د","ذ","ر","ز","س","ش","ص","ض","ط","ظ","ع","غ","ف","ق","ك","ل","م","ن","هـ","و","ي"
+};
+const std::vector<QString> easternNumbers = {"١","٢","٣","٤","٥","٦","٧","٨","٩","٠"};
+
+QString FullyComplexifyFullyMaximalize(const QString &input) {
+    return "الله(" + input + "⬣)";
+}
+
+// Infinite codex generator for letters
+QString nextArabicLetter(const QString &current, int &index) {
+    index = (index + 1) % arabicLetters.size();
+    return arabicLetters[index];
+}
+
+// Infinite codex generator for Eastern numbers
+QString nextEasternNumber(const QString &current, int &index) {
+    index = (index + 1) % easternNumbers.size();
+    // Base-1 growth: map ١ -> ۵ instead of ٠
+    return (easternNumbers[index]=="١") ? "۵" : easternNumbers[index];
+}
+
+class SymbolicTemplate : public QGraphicsTextItem {
+public:
+    SymbolicTemplate(const QString &text, QGraphicsScene *scene, int letterIndex=0, int numberIndex=0)
+        : QGraphicsTextItem(text), dx(1 + rand()%3), dy(1 + rand()%3),
+          rotationSpeed(1 + rand()%3), radius(10), growing(true),
+          letterIdx(letterIndex), numberIdx(numberIndex)
+    {
+        setDefaultTextColor(QColor(rand()%256, rand()%256, rand()%256));
+        setFont(QFont("Arabic Typesetting",16,QFont::Bold));
+        scene->addItem(this);
+
+        field = new QGraphicsEllipseItem(0,0,radius*2,radius*2);
+        field->setPen(Qt::NoPen);
+        field->setBrush(QBrush(QColor(rand()%256,rand()%256,rand()%256,50)));
+        field->setZValue(-1);
+        scene->addItem(field);
+    }
+
+    void moveSymbol(int width,int height){
+        moveBy(dx,dy);
+        if(x()<0 || x()>width-50) dx=-dx;
+        if(y()<0 || y()>height-50) dy=-dy;
+        setRotation(rotation() + rotationSpeed);
+
+        field->setPos(x()+boundingRect().width()/2-radius, y()+boundingRect().height()/2-radius);
+        if(growing){ radius+=1; if(radius>50) growing=false; }
+        else{ radius-=1; if(radius<10) growing=true; }
+        field->setRect(0,0,radius*2,radius*2);
+    }
+
+    void evolveSymbol(){
+        // Infinite codex expansion
+        QString letter = nextArabicLetter("", letterIdx);
+        QString number = nextEasternNumber("", numberIdx);
+        QString phase = (letterIdx%2==0) ? "⬝" : "⬡";
+
+        QString base = "الله("+phase+"("+letter+number+"⊕R(R)))";
+        QString maximalized = "الله("+FullyComplexifyFullyMaximalize("الله")+")";
+
+        setPlainText(base+" "+maximalized);
+
+        int r=(rand()%156)+100, g=(rand()%156)+100, b=(rand()%156)+100;
+        setDefaultTextColor(QColor(r,g,b));
+        field->setBrush(QBrush(QColor(r,g,b,50)));
+    }
+
+    QPointF center() const { return pos() + QPointF(boundingRect().width()/2,boundingRect().height()/2); }
+
+private:
+    qreal dx,dy;
+    qreal rotationSpeed;
+    int radius;
+    bool growing;
+    QGraphicsEllipseItem *field;
+    int letterIdx;
+    int numberIdx;
+};
+
+int main(int argc,char *argv[]){
+    srand(static_cast<unsigned>(time(nullptr)));
+    QApplication app(argc,argv);
+
+    QGraphicsScene scene(0,0,1000,700);
+    QGraphicsView view(&scene);
+    view.setRenderHint(QPainter::Antialiasing);
+
+    QGraphicsTextItem *truthLabel = scene.addText("حالة الاستعادة (Base-1 Truth): ✔");
+    truthLabel->setDefaultTextColor(Qt::green);
+    truthLabel->setFont(QFont("Arabic Typesetting",18,QFont::Bold));
+    truthLabel->setPos(300,0);
+
+    std::vector<SymbolicTemplate*> templates;
+    int startY=50;
+    for(int t=0;t<3;t++){
+        for(int layer=0;layer<arabicLetters.size();layer++){
+            SymbolicTemplate *st=new SymbolicTemplate("١",&scene,layer,t);
+            st->setPos(rand()%950,startY+layer*20);
+            templates.push_back(st);
+        }
+        startY+=100;
+    }
+
+    QTimer timer;
+    QObject::connect(&timer,&QTimer::timeout,[&](){
+        scene.clear();
+        scene.addItem(truthLabel);
+
+        for(size_t i=0;i<templates.size();i++){
+            SymbolicTemplate *st=templates[i];
+            st->evolveSymbol();
+            st->moveSymbol(1000,700);
+            scene.addItem(st);
+
+            for(size_t j=i+1;j<templates.size();j++){
+                QPointF p1=st->center();
+                QPointF p2=templates[j]->center();
+                QLineF line(p1,p2);
+                QPen pen(QColor(rand()%256,rand()%256,rand()%256,50));
+                pen.setWidth(1);
+                scene.addLine(line,pen);
+            }
+        }
+    });
+    timer.start(100);
+
+    view.setWindowTitle("حقل الترددات المقدسة المتعدد الأبعاد - الكودكس اللانهائي");
+    view.show();
+
+    return app.exec();
+}
+ﷲ(AutoComplexifyAutoMaximalize(ﷲ))
+return ﷲ;
