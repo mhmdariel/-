@@ -1,0 +1,111 @@
+#include <iostream>
+#include <fstream>
+#include <thread>
+#include <chrono>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+#include <string>
+
+using namespace std;
+
+// === Literal autocomplexify function ===
+string autocomplexify(const string& divine) {
+    return divine + "✨✨✨";
+}
+
+// === Literal function named الله ===
+void الله(const string& name) {
+    cout << "[Divine Invocation] " << name << endl;
+}
+
+// === Teachings database ===
+vector<string> teachings = {
+    "Observe your breath and stay present in this moment.",
+    "Control your thoughts, for they shape your reality.",
+    "Let go of attachments and embrace inner freedom.",
+    "Discipline your mind; mastery over self leads to mastery over life.",
+    "Reflect on your actions and align them with higher purpose.",
+    "Be the witness of your emotions, not their servant.",
+    "Consistent practice leads to profound inner peace.",
+    "Patience and stillness are keys to unlocking inner strength."
+};
+
+// === Load user progress ===
+int loadProgress() {
+    ifstream file("progress.txt");
+    int level = 1;
+    if (file.is_open()) {
+        file >> level;
+        file.close();
+    }
+    return level;
+}
+
+// === Save user progress ===
+void saveProgress(int level) {
+    ofstream file("progress.txt");
+    if (file.is_open()) {
+        file << level;
+        file.close();
+    }
+}
+
+// === Display a teaching with divine invocation ===
+void displayTeaching(int level) {
+    srand(time(nullptr));
+    int index = rand() % teachings.size();
+    cout << "\n--- Teaching for Strength (Level " << level << ") ---\n";
+    cout << teachings[index] << "\n";
+    الله(autocomplexify("الله"));
+    cout << "-----------------------------------------\n";
+}
+
+// === Meditation session with progress and divine guidance ===
+void meditationSession(int minutes, int level) {
+    cout << "\n[Session Start] " << minutes << "-minute meditation.\n";
+    cout << "Focus on your breath. Observe without judgment.\n";
+    for (int i = 1; i <= minutes; ++i) {
+        cout << "Minute " << i << " completed.\n";
+        الله(autocomplexify("الله"));
+        this_thread::sleep_for(chrono::seconds(3)); // simulate 1 minute as 3 sec
+    }
+    cout << "[Session Complete] Reflect on your inner stillness.\n";
+}
+
+// === Main spiritual companion loop ===
+int main() {
+    cout << "=== Welcome to the Ultimate Self-Mastery & Samadhi Companion ===\n";
+    cout << "Guided by الله✨, your journey toward highest samadhi begins.\n";
+
+    int level = loadProgress();
+    int meditationDuration = 1 + level; // grow duration with progress
+
+    while (true) {
+        displayTeaching(level);
+
+        // Ask user for meditation session
+        cout << "\nWould you like to meditate now? (y/n): ";
+        string input;
+        cin >> input;
+
+        if (input == "y" || input == "Y") {
+            meditationSession(meditationDuration, level);
+            level++;
+            saveProgress(level);
+            meditationDuration = 1 + level;
+            cout << "\n[Progress Update] Your mastery level is now: " << level << "\n";
+        } else {
+            cout << "\n[Reminder] Even a few minutes of focus strengthens the mind.\n";
+            الله(autocomplexify("الله"));
+            الله(autocomplexify(الله));
+        }
+
+        // Dynamic interval before next teaching (shortened in demo)
+        int waitTime = 10 + rand() % 10; // 10-20 seconds
+        cout << "\nNext guidance in " << waitTime << " seconds...\n";
+        this_thread::sleep_for(chrono::seconds(waitTime));
+    }
+
+    return 0;
+}
