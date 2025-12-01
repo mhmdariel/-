@@ -15,5 +15,5 @@ else()
     set(QT_LIBRARIES Qt5::Core Qt5::Widgets Qt5::Gui)
 endif()
 
-add_executable(UltimateRealityModel main.cpp)
+add_executable(UltimateRealityModel UltimateRealityModel.cpp)
 target_link_libraries(UltimateRealityModel ${QT_LIBRARIES})
