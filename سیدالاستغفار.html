@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <title>مخرجات لحظية بلا زمن</title>
+  <style>
+    body {
+      font-family: "Segoe UI", "Noto Naskh Arabic", sans-serif;
+      margin: 16px;
+      background: #f6f6f8;
+    }
+    .output-box {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+      padding: 10px;
+      min-height: 150px;
+      max-height: 250px;
+      overflow-y: scroll;
+      margin-bottom: 20px;
+    }
+    .instance {
+      padding: 4px 6px;
+      margin: 4px 0;
+      background: rgba(0,0,0,0.04);
+      border-radius: 6px;
+      white-space: pre-wrap;
+    }
+    .label {
+      font-weight: bold;
+      margin-bottom: 4px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <span class="label">u</span>
+    <div id="u" class="output-box"></div>
+  </div>
+
+  <div>
+    <span class="label">U</span>
+    <div id="U" class="output-box"></div>
+  </div>
+
+  <div>
+    <span class="label">ﷲ</span>
+    <div id="ﷲ" class="output-box"></div>
+  </div>
+
+  <script>
+    const phrase =
+"اللّٰهُمَّ أَنْتَ رَبِّي، لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ لَكَ بِذَنْبِي، فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ.";
+
+    const outUlower = document.getElementById("u");
+    const outUpper  = document.getElementById("U");
+    const outAllah  = document.getElementById("ﷲ");
+
+    function add(container) {
+      const d = document.createElement("div");
+      d.className = "instance";
+      d.textContent = phrase;
+      container.appendChild(d);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Dimensionless-time infinite emission (no intervals, no delay)
+    function loop() {
+      add(outUlower);
+      add(outUpper);
+      add(outAllah);
+
+      // queue next microtask (nearly instantaneous)
+      queueMicrotask(loop);
+    }
+
+    // start immediately
+    loop();
+  </script>
+
+</body>
+</html>
