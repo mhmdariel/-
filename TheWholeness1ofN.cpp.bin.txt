@@ -1,3 +1,4 @@
+//ﷲٌﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷴﷺﷲٌﷻ
 //https://chat.deepseek.com/share/86izik8006tti13it2
 #include <iostream>
 #include <string>
@@ -7142,3 +7143,120 @@ int main() {
     
     return 0;
 }
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+// هيكل لآية قرآنية
+struct AyahQuran {
+    int surah;
+    int ayah;
+    string arabic;
+    string translation;
+};
+
+// برنامج بسيط لعرض القرآن
+class QuranDisplay {
+private:
+    vector<AyahQuran> ayat;
+    int currentIndex;
+    
+public:
+    QuranDisplay() : currentIndex(0) {
+        // إضافة بعض الآيات للتوضيح
+        ayat.push_back({1, 1, "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "In the name of Allah, the Entirely Merciful, the Especially Merciful"});
+        ayat.push_back({2, 255, "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ", "Allah - there is no deity except Him, the Ever-Living, the Sustainer of existence"});
+        ayat.push_back({112, 1, "قُلْ هُوَ اللَّهُ أَحَدٌ", "Say: He is Allah, [who is] One"});
+        ayat.push_back({36, 82, "إِنَّمَا أَمْرُهُ إِذَا أَرَادَ شَيْئًا أَنْ يَقُولَ لَهُ كُنْ فَيَكُونُ", "His command is only when He intends a thing that He says to it, 'Be,' and it is"});
+    }
+    
+    void displayCurrentAyah() {
+        if (currentIndex < ayat.size()) {
+            cout << "\n════════════════════════════════════════\n";
+            cout << "سورة " << ayat[currentIndex].surah;
+            cout << " آية " << ayat[currentIndex].ayah << "\n\n";
+            cout << "عربي: " << ayat[currentIndex].arabic << "\n\n";
+            cout << "ترجمة: " << ayat[currentIndex].translation << "\n";
+            cout << "════════════════════════════════════════\n";
+        }
+    }
+    
+    void nextAyah() {
+        currentIndex = (currentIndex + 1) % ayat.size();
+    }
+    
+    void displayAll() {
+        for (int i = 0; i < ayat.size(); i++) {
+            displayCurrentAyah();
+            nextAyah();
+            cout << "\nاضغط Enter للمتابعة...";
+            cin.get();
+        }
+    }
+    
+    void displayDisclaimer() {
+        cout << "╔══════════════════════════════════════════════════╗\n";
+        cout << "║               تـــنــبــيــه هـــام               ║\n";
+        cout << "╠══════════════════════════════════════════════════╣\n";
+        cout << "║ القرآن الكريم كلام الله تعالى                   ║\n";
+        cout << "║ فهمه يحتاج إلى:                                  ║\n";
+        cout << "║  • دراسة مع العلماء المؤهلين                    ║\n";
+        cout << "║  • الرجوع إلى التفاسير المعتمدة                 ║\n";
+        cout << "║  • التلقي عن أهل العلم بالسند المتصل            ║\n";
+        cout << "║                                                  ║\n";
+        cout << "║ لا يجوز:                                         ║\n";
+        cout << "║  • الادعاء بفهم لا نهائي للقرآن                 ║\n";
+        cout << "║  • تفسير القرآن بالرأي بدون علم                  ║\n";
+        cout << "║  • الخوض في المتشابهات دون الراسخين في العلم    ║\n";
+        cout << "╚══════════════════════════════════════════════════╝\n";
+    }
+};
+
+int main() {
+    cout << "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\n\n";
+    cout << "برنامج عرض آيات قرآنية للتعلم والتأمل\n";
+    cout << "======================================\n\n";
+    
+    QuranDisplay quran;
+    quran.displayDisclaimer();
+    
+    cout << "\n\nاضغط Enter لعرض الآيات...";
+    cin.get();
+    
+    quran.displayAll();
+    
+    cout << "\n\nخاتمة:\n";
+    cout << "══════\n";
+    cout << "القرآن الكريم هدى ونور:\n";
+    cout << "• {إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ} [الإسراء: 9]\n";
+    cout << "• {وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِّلْمُؤْمِنِينَ} [الإسراء: 82]\n\n";
+    
+    cout << "طريق الفهم الصحيح:\n";
+    cout << "1. التعلم على يد العلماء\n";
+    cout << "2. دراسة اللغة العربية\n";
+    cout << "3. الرجوع إلى التفاسير\n";
+    cout << "4. العمل بالعلم\n";
+    
+    return 0;
+}
+// الطريق الصحيح لفهم القرآن
+class الطريقالصحيح {
+public:
+    vector<string> خطوات = {
+        "تعلم اللغة العربية",
+        "دراسة علوم القرآن",
+        "التلقي عن العلماء",
+        "الرجوع إلى التفاسير المعتمدة",
+        "العمل بالعلم",
+        "الدعاء بالتفقه في الدين"
+    };
+    
+    void اعرضالطريق() {
+        cout << "طريق فهم القرآن الكريم:\n";
+        for (int i = 0; i < خطوات.size(); i++) {
+            cout << i+1 << ". " << خطوات[i] << "\n";
+        }
+    }
+};
