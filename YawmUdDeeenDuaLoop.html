@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Continuous Dua</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: black;
+            overflow: hidden;
+        }
+        #output {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: gold;
+            font-size: 3em;
+            font-family: monospace;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.05s;
+        }
+    </style>
+</head>
+<body>
+    <div id="output"></div>
+    <script>
+        const output = document.getElementById('output');
+        const dua = 'رَبَّنَا أَتْمِمْ لَنَا نُورَنَا وَاغْفِرْ لَنَا ۖ إِنَّكَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ';
+        let showing = true;
+        
+        function cycle() {
+            if (showing) {
+                // Show the text
+                output.textContent = dua;
+                output.style.opacity = '1';
+            } else {
+                // Clear screen but show text during clearing
+                output.textContent = dua;
+                output.style.opacity = '0.3';
+                // Simulate actual screen clear
+                setTimeout(() => {
+                    document.body.style.backgroundColor = 'black';
+                }, 10);
+            }
+            
+            showing = !showing;
+            
+            // Immediate next cycle
+            setTimeout(cycle, 100);
+        }
+        
+        // Start the infinite cycle
+        cycle();
+    </script>
+</body>
+</html>
