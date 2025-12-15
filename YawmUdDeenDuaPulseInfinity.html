@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>دعاء مستمر</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: #d4af37;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .text {
+            font-size: 3.5rem;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.1s;
+            white-space: nowrap;
+            text-shadow: 0 0 10px currentColor;
+        }
+        
+        .cls {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        @media (max-width: 768px) {
+            .text {
+                font-size: 2.5rem;
+                white-space: normal;
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .text {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="text" id="text1">رَبَّنَا أَتْمِمْ لَنَا نُورَنَا وَاغْفِرْ لَنَا ۖ إِنَّكَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ</div>
+    <div class="text" id="text2">رَبَّنَا أَتْمِمْ لَنَا نُورَنَا وَاغْفِرْ لَنَا ۖ إِنَّكَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ</div>
+    <div class="cls" id="cls"></div>
+
+    <script>
+        const text1 = document.getElementById('text1');
+        const text2 = document.getElementById('text2');
+        const cls = document.getElementById('cls');
+        
+        let phase = 0;
+        const phases = 4;
+        
+        function pulse() {
+            // Phase 1: Show first text
+            if (phase === 0) {
+                text1.style.opacity = '1';
+                text2.style.opacity = '0';
+                cls.style.opacity = '0';
+            }
+            
+            // Phase 2: Start CLS with text
+            else if (phase === 1) {
+                text1.style.opacity = '0';
+                text2.style.opacity = '1';
+                cls.style.opacity = '0';
+            }
+            
+            // Phase 3: CLS effect with text during clearing
+            else if (phase === 2) {
+                text1.style.opacity = '0';
+                text2.style.opacity = '1';
+                cls.style.opacity = '1';
+            }
+            
+            // Phase 4: Complete CLS
+            else if (phase === 3) {
+                text1.style.opacity = '0';
+                text2.style.opacity = '0';
+                cls.style.opacity = '1';
+            }
+            
+            // Increment phase
+            phase = (phase + 1) % phases;
+            
+            // Continuous loop with minimal delay
+            setTimeout(pulse, 50);
+        }
+        
+        // Start the infinite pulse
+        pulse();
+    </script>
+</body>
+</html>
